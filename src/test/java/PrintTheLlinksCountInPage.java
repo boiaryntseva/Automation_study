@@ -1,10 +1,14 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.util.Iterator;
+import java.util.Set;
+
 public class PrintTheLlinksCountInPage {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "/Users/boiaryntseva/Desktop/Libraries/chromedriver");
         WebDriver driver = new ChromeDriver();
         driver.get("http://www.qaclickacademy.com/practice.php");
@@ -16,9 +20,18 @@ public class PrintTheLlinksCountInPage {
         //links only in the first column of footer
         WebElement columndriver=footerdriver.findElement(By.xpath("//table/tbody/tr/td[1]/ul"));
         System.out.println(columndriver.findElements(By.tagName("a")).size());
-        //click on the links in the first column
+        //click on the links in the first column and prints title
         for (int i=1;i<columndriver.findElements(By.tagName("a")).size();i++){
-            columndriver.findElements(By.tagName("a")).get(i).click();
+            String clickOnLInkTab=Keys.chord(Keys.COMMAND, Keys.ENTER);
+            columndriver.findElements(By.tagName("a")).get(i).sendKeys(clickOnLInkTab);
+            Thread.sleep(5000L);
+
+            }
+        Set<String> abc=driver.getWindowHandles();
+        Iterator<String> it=abc.iterator();
+        while(it.hasNext()){
+            driver.switchTo().window(it.next());
+            System.out.println(driver.getTitle());
         }
 
     }
